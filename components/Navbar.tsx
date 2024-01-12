@@ -1,9 +1,15 @@
+"use client";
+
 import Button from "@/common/Button";
 import { NAV_LINKS } from "@/constants";
+import Hamburger from "hamburger-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
 const Navbar = () => {
+   const [isOpen, setIsOpen] = useState(false);
+
    return (
       <nav
          className="flexBetween max-container padding-container relative
@@ -39,6 +45,32 @@ const Navbar = () => {
                icon="/user.svg"
                variant="btn_dark_green"
             />
+         </div>
+         {/* burger menu */}
+         <div className="lg:hidden">
+            <div className="absolute top-2 right-4 z-40">
+               <Hamburger
+                  toggled={isOpen}
+                  size={30}
+                  toggle={setIsOpen}
+               />
+            </div>
+            {isOpen && (
+               <div className="absolute top-0 right-0 h-screen w-8/12 bg-gray-10 border">
+                  <ul className="flex flex-col w-full text-base gap-y-4 pt-10">
+                     {NAV_LINKS.map((link) => {
+                        return (
+                           <Link
+                              key={link.key}
+                              href={link.href}
+                              className="py-4 px-6 w-full block text-left">
+                              {link.label}
+                           </Link>
+                        );
+                     })}
+                  </ul>
+               </div>
+            )}
          </div>
       </nav>
    );
